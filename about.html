@@ -3,83 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZEMIN | ABOUT</title>
+    <title>ABOUT | ZEMIN</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background: #000; color: #fff; padding-top: 150px; }
+        body { 
+            font-family: 'Inter', sans-serif; background: #000; color: #fff;
+            background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+            background-attachment: fixed;
+        }
 
-        /* Background Image Slider */
-        .bg-slider { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.15; overflow: hidden; }
-        .slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; animation: fade 15s infinite; }
-        .slide:nth-child(2) { animation-delay: 5s; }
-        .slide:nth-child(3) { animation-delay: 10s; }
-        @keyframes fade { 0%, 100% { opacity: 0; } 20%, 80% { opacity: 1; } }
+        /* ======================
+           NAVIGATION
+        ====================== */
+        nav { 
+            position: absolute; top: 0; left: 0; width: 100%; z-index: 200; 
+            display: flex; justify-content: space-between; align-items: center; padding: 2rem; 
+        }
+        .logo { font-size: 1.5rem; font-weight: 600; letter-spacing: 0.2em; color: white; }
+        .hamburger { 
+            background: none; border: none; color: white; cursor: pointer; 
+            font-size: .8rem; letter-spacing: .2em; text-transform: uppercase;
+        }
 
-        nav { display: flex; justify-content: space-between; padding: 2rem; position: fixed; top: 0; width: 100%; z-index: 20; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); }
-        .logo { font-weight: 900; font-size: 1.5rem; letter-spacing: -2px; }
-        .hamburger { cursor: pointer; font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; border: 1px solid #333; padding: 5px 10px; }
+        /* ======================
+           FULLSCREEN MENU
+        ====================== */
+       #menu-overlay{
+            position:fixed;
+            inset:0;
 
-        .container { max-width: 800px; margin: 0 auto; padding: 0 2rem 5rem; }
-        h1 { font-size: 4rem; margin-bottom: 2rem; }
-        p { font-size: 1.1rem; line-height: 1.8; color: #aaa; margin-bottom: 2rem; }
-        
-        .grid-contact { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; border-top: 1px solid #333; padding-top: 2rem; }
-        .contact-item { margin-bottom: 1.5rem; }
-        .label { font-size: 0.7rem; color: #555; text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 0.5rem; }
-        a { color: #fff; text-decoration: none; border-bottom: 1px solid #555; }
+            background-image:url('images/back.jpeg');
+            background-size:cover;
+            background-position:center;
 
-        /* Simple Map Placeholder */
-        .map-box { width: 100%; height: 200px; background: #1a1a1a; display: flex; align-items: center; justify-content: center; color: #555; border: 1px solid #333; }
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+            gap:2rem;
 
-        #menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 100; display: none; flex-direction: column; align-items: center; justify-content: center; }
-        #menu-overlay.open { display: flex; }
-        #menu-overlay a { color: white; text-decoration: none; font-size: 2rem; margin: 15px; }
+            z-index:100;
+
+            opacity:0;
+            visibility:hidden;
+            transition:
+                opacity .6s ease,
+                visibility .6s ease;
+        }
+
+        #menu-overlay::before{
+            content:'';
+            position:absolute;
+            inset:0;
+            background:rgba(0,0,0,.88);
+        }
+
+        #menu-overlay.open{
+            opacity:1;
+            visibility:visible;
+        }
+
+        #menu-overlay a{
+            position:relative;
+            z-index:2;
+
+            text-decoration:none;
+            color:white;
+
+            font-size:2rem;
+            font-weight:300;
+            letter-spacing:.08em;
+
+            transition:.3s;
+        }
+
+        #menu-overlay a:hover{
+            opacity:.6;
+        }
+
+
+        /* ======================
+           CONTENT
+        ====================== */
+        .section-wrap { margin-bottom: 8rem; }
+        .parallax-container { 
+            height: 60vh; width: 100vw; overflow: hidden; position: relative;
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 20%, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%);
+            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 20%, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%);
+        }
+        .parallax-bg { width: 100%; height: 100%; background-attachment: fixed; background-position: center; background-size: cover; opacity: 0.6; }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 0 2rem; }
+        .text-section h2 { font-size: 1.8rem; font-weight: 300; margin-bottom: 2rem; letter-spacing: 0.1em; text-transform: uppercase; }
+        .text-section p { font-size: 1.1rem; line-height: 1.8; color: #aaa; font-weight: 300; margin-bottom: 1.5rem; }
+
+        .social-links { display: flex; gap: 2rem; margin-top: 3rem; }
+        .icon { width: 24px; height: 24px; fill: #666; transition: 0.3s; }
+        .icon:hover { fill: white; }
+
+        .map-container { width: 100%; height: 300px; margin-top: 4rem; border: 1px solid #222; }
+        .map-container iframe { width: 100%; height: 100%; filter: grayscale(1) invert(1) contrast(0.8); }
+
+        @media (max-width: 768px) { .parallax-bg { background-attachment: scroll !important; } .text-section p { text-align: justify; } }
     </style>
 </head>
 <body>
 
-    <div class="bg-slider">
-        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=1200');"></div>
-        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1200');"></div>
-        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&w=1200');"></div>
-    </div>
-
     <nav>
-        <a href="index.html" class="logo" style="text-decoration: none; color: white;">ZEMIN</a>
-        <div class="hamburger" onclick="toggleMenu()">Menu</div>
+        <div class="logo">ZEMIN</div>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Open Menu">MENU</button>
     </nav>
 
     <div id="menu-overlay">
-        <a href="index.html">HOME</a>
-        <a href="program.html">PROGRAM</a>
-        <a href="about.html">ABOUT</a>
+        <a href="index.html" onclick="toggleMenu()">HOME</a>
+        <a href="program.html" onclick="toggleMenu()">PROGRAM</a>
         <a href="#" onclick="toggleMenu()">CLOSE</a>
     </div>
 
-    <main class="container">
-        <h1>ABOUT US</h1>
-        <p>ZEMIN is an interdisciplinary experimental lab based in Istanbul. We provide the infrastructure for sound, digital, and visual artists to push boundaries through collaborative workshops, exhibitions, and performance events.</p>
-        
-        <div class="grid-contact">
-            <div>
-                <div class="contact-item">
-                    <div class="label">Contact</div>
-                    <a href="mailto:info@zemin.lab">info@zemin.lab</a>
-                </div>
-                <div class="contact-item">
-                    <div class="label">Socials</div>
-                    <a href="#">Instagram</a> / <a href="#">Twitter</a>
-                </div>
+    <main>
+        <div class="section-wrap">
+            <section class="parallax-container"><div class="parallax-bg" style="background-image: url('images/com.jpeg');"></div></section>
+            <div class="container text-section">
+                <h2>Kreuzberg Foundation</h2>
+                <p>Operating for six years in the heart of Kreuzberg, ZEMIN provides a critical foundation for sonic experimentation, technological research, and multidisciplinary art. We serve as an independent node in Berlin’s creative ecosystem, bridging the gap between historical analog techniques and future-facing digital methodologies.</p>
+                <p>Our commitment is to foster a space where the architecture of sound is constantly interrogated. By maintaining an open-access philosophy, we empower residents and visiting artists to engage deeply with the technical and aesthetic parameters of their practice.</p>
             </div>
-            <div>
-                <div class="label">Location</div>
-                <div class="map-box">Istanbul, TR [Map Placeholder]</div>
+        </div>
+
+        <div class="section-wrap">
+            <section class="parallax-container"><div class="parallax-bg" style="background-image: url('images/back.jpeg');"></div></section>
+            <div class="container text-section">
+                <h2>Hub for Communities and Collectives</h2>
+                <p>ZEMIN functions as a collaborative laboratory—a sanctuary for collectives to iterate, perform, and connect. We move beyond traditional studio models, offering a flexible infrastructure that supports the cross-pollination of ideas between analog hardware enthusiasts and digital-native creators.</p>
+                <p>We believe in the power of collective intelligence. By providing shared technical resources—from modular synthesis arrays to custom-coded audiovisual patches—we enable a community where local and international artists can collaborate on long-term projects, ensuring a sustainable environment for experimental production.</p>
+            </div>
+        </div>
+
+        <div class="section-wrap">
+            <section class="parallax-container"><div class="parallax-bg" style="background-image: url('images/expr.png');"></div></section>
+            <div class="container text-section">
+                <h2>Lab for Experimentation</h2>
+                <p>ZEMIN is an environment for the unknown. We prioritize the process over the product, stripping away the commercial pressure of the "finished work" to explore the granular, the glitch, and the avant-garde. Our labs are equipped for deep-dive technical research, allowing artists to prototype new tools and push the boundaries of current acoustic and visual expression.</p>
+                <p>Whether through our recurring technical workshops, or our intimate live performance events, we aim to document and share the evolution of contemporary sonic art. ZEMIN is not just a venue; it is a living, breathing archive of current experimental practices.</p>
+                
+                <div class="social-links">
+                    <a href="mailto:info@zemin.berlin"><svg class="icon" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></a>
+                    <a href="https://instagram.com/zeminberlin"><svg class="icon" viewBox="0 0 24 24"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2zm-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6zm9.65 1.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></svg></a>
+                </div>
+
+                <div class="map-container">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2429.173235076224!2d13.398275976736903!3d52.4941036720544!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47a84f5a824aeac9%3A0x7a7813b2cbac7be3!2sZemin%20Berlin!5e0!3m2!1sen!2str!4v1780762634171!5m2!1sen!2str" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
             </div>
         </div>
     </main>
 
     <script>
-        function toggleMenu() { document.getElementById('menu-overlay').classList.toggle('open'); }
+        function toggleMenu(){
+            document.getElementById('menu-overlay').classList.toggle('open');
+        }
     </script>
 </body>
 </html>
