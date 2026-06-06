@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZEMIN</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Inter',sans-serif;
+    background:#000;
+    color:white;
+    overflow:hidden;
+}
+
+/* ======================
+   NAVIGATION
+====================== */
+
+nav{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    z-index:200;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:2rem;
+}
+
+.logo{
+    font-size:1.5rem;
+    font-weight:600;
+    letter-spacing:0.2em;
+}
+
+.hamburger{
+    background:none;
+    border:none;
+    color:white;
+    cursor:pointer;
+    font-size:.8rem;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+}
+
+/* ======================
+   FULLSCREEN MENU
+====================== */
+
+#menu-overlay{
+    position:fixed;
+    inset:0;
+
+    background-image:url('https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=1400&q=80');
+    background-size:cover;
+    background-position:center;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    gap:2rem;
+
+    z-index:100;
+
+    opacity:0;
+    visibility:hidden;
+    transition:
+        opacity .6s ease,
+        visibility .6s ease;
+}
+
+#menu-overlay::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:rgba(0,0,0,.88);
+}
+
+#menu-overlay.open{
+    opacity:1;
+    visibility:visible;
+}
+
+#menu-overlay a{
+    position:relative;
+    z-index:2;
+
+    text-decoration:none;
+    color:white;
+
+    font-size:2rem;
+    font-weight:300;
+    letter-spacing:.08em;
+
+    transition:.3s;
+}
+
+#menu-overlay a:hover{
+    opacity:.6;
+}
+
+/* ======================
+   PANELS
+====================== */
+
+.grid-container{
+    display:flex;
+    width:100vw;
+    height:100vh;
+}
+
+.lab-block{
+    position:relative;
+    flex:1;
+    min-width:120px;
+
+    overflow:hidden;
+    cursor:pointer;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    transition:flex .8s cubic-bezier(.19,1,.22,1);
+}
+
+.lab-block:hover{
+    flex:3;
+}
+
+/* ======================
+   BACKGROUND
+====================== */
+
+.bg-img{
+    position:absolute;
+    inset:0;
+
+    background-size:cover;
+    background-position:center;
+
+    transform:scale(1);
+    transition:transform 1.2s ease;
+}
+
+.lab-block:hover .bg-img{
+    transform:scale(1.05);
+}
+
+.overlay{
+    position:absolute;
+    inset:0;
+    background:rgba(0,0,0,.65);
+
+    transition:background .5s ease;
+}
+
+.lab-block:hover .overlay{
+    background:rgba(0,0,0,.35);
+}
+
+/* ======================
+   CONTENT
+====================== */
+
+.content{
+    position:absolute;
+    z-index:5;
+
+    top:50%;
+    left:50%;
+
+    transform:translate(-50%,-50%);
+
+    display:flex;
+    align-items:center;
+
+    transition:all .7s cubic-bezier(.19,1,.22,1);
+}
+
+.title{
+    writing-mode:vertical-rl;
+    transform:rotate(180deg);
+
+    white-space:nowrap;
+
+    font-size:1rem;
+    font-weight:300;
+    letter-spacing:.4em;
+
+    transition:.6s;
+}
+
+.divider{
+    width:1px;
+    height:0;
+
+    background:rgba(255,255,255,.35);
+
+    margin:0;
+
+    transition:.6s ease;
+}
+
+.desc{
+    max-width:260px;
+
+    font-size:.9rem;
+    line-height:1.7;
+
+    opacity:0;
+    overflow:hidden;
+
+    margin-left:0;
+
+    transition:
+        opacity .5s ease,
+        margin .5s ease;
+}
+
+/* ======================
+   HOVER STATE
+====================== */
+
+.lab-block:hover .content{
+    left:30%;
+}
+
+.lab-block:hover .divider{
+    height:100px;
+    margin:0 1.8rem;
+}
+
+.lab-block:hover .desc{
+    opacity:1;
+}
+
+/* ======================
+   MOBILE
+====================== */
+
+@media(max-width:768px){
+
+body{
+    overflow-y:auto;
+}
+
+.grid-container{
+    flex-direction:column;
+    min-height:100vh;
+    padding-top:80px;
+}
+
+.lab-block{
+    min-height:120px;
+    flex:1;
+}
+
+.lab-block:hover{
+    flex:1;
+}
+
+.lab-block.active{
+    flex:3;
+}
+
+.content{
+    flex-direction:column;
+    text-align:center;
+
+    left:50% !important;
+    transform:translate(-50%,-50%) !important;
+}
+
+.title{
+    writing-mode:horizontal-tb;
+    transform:none;
+}
+
+.divider{
+    width:0;
+    height:0;
+}
+
+.lab-block.active .divider{
+    width:60px;
+    height:1px;
+    margin:12px 0;
+}
+
+.lab-block.active .desc{
+    opacity:1;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<nav>
+    <div class="logo">ZEMIN</div>
+
+    <button
+        class="hamburger"
+        onclick="toggleMenu()"
+        aria-label="Open Menu">
+        MENU
+    </button>
+</nav>
+
+<!-- MENU -->
+
+<div id="menu-overlay">
+
+    <a href="about.html" onclick="toggleMenu()">ABOUT</a>
+    <a href="program.html" onclick="toggleMenu()">PROGRAM</a>
+    
+    <a href="#" onclick="toggleMenu(); return false;">
+        CLOSE
+    </a>
+
+</div>
+
+<!-- PANELS -->
+
+<main class="grid-container">
+
+    <div class="lab-block" onclick="toggleActive(this)">
+        <div class="bg-img"
+             style="background-image:url('https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=1400&q=80')">
+        </div>
+
+        <div class="overlay"></div>
+
+        <div class="content">
+            <div class="title">SOUND LAB</div>
+            <div class="divider"></div>
+            <div class="desc">
+                A professional acoustic environment for
+                high-fidelity recording and sound synthesis.
+            </div>
+        </div>
+    </div>
+
+    <div class="lab-block" onclick="toggleActive(this)">
+        <div class="bg-img"
+             style="background-image:url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1400&q=80')">
+        </div>
+
+        <div class="overlay"></div>
+
+        <div class="content">
+            <div class="title">DIGITAL LAB</div>
+            <div class="divider"></div>
+            <div class="desc">
+                A creative hub for generative art,
+                digital prototyping and interaction design.
+            </div>
+        </div>
+    </div>
+
+    <div class="lab-block" onclick="toggleActive(this)">
+        <div class="bg-img"
+             style="background-image:url('https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&w=1400&q=80')">
+        </div>
+
+        <div class="overlay"></div>
+
+        <div class="content">
+            <div class="title">FINE LAB</div>
+            <div class="divider"></div>
+            <div class="desc">
+                A contemporary studio space for painting,
+                sculpture and experimental visual practices.
+            </div>
+        </div>
+    </div>
+
+    <div class="lab-block" onclick="toggleActive(this)">
+        <div class="bg-img"
+             style="background-image:url('https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?auto=format&fit=crop&w=1400&q=80')">
+        </div>
+
+        <div class="overlay"></div>
+
+        <div class="content">
+            <div class="title">PERFORMANCE LAB</div>
+            <div class="divider"></div>
+            <div class="desc">
+                A flexible black-box venue for theatre,
+                dance and immersive performance.
+            </div>
+        </div>
+    </div>
+
+    <div class="lab-block" onclick="toggleActive(this)">
+        <div class="bg-img"
+             style="background-image:url('https://images.unsplash.com/photo-1571266066725-3733075c324c?auto=format&fit=crop&w=1400&q=80')">
+        </div>
+
+        <div class="overlay"></div>
+
+        <div class="content">
+            <div class="title">DJ LAB</div>
+            <div class="divider"></div>
+            <div class="desc">
+                Advanced mixing stations and electronic music
+                production environments.
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<script>
+
+function toggleMenu(){
+    document
+        .getElementById('menu-overlay')
+        .classList
+        .toggle('open');
+}
+
+function toggleActive(el){
+
+    if(window.innerWidth <= 768){
+
+        const isActive =
+            el.classList.contains('active');
+
+        document
+            .querySelectorAll('.lab-block')
+            .forEach(block =>
+                block.classList.remove('active')
+            );
+
+        if(!isActive){
+            el.classList.add('active');
+        }
+    }
+}
+
+</script>
+
+</body>
+</html>
